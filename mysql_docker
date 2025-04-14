@@ -1,0 +1,7 @@
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:latest
+
+docker exec -it mysql mysql -u root -p
+
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY root;
+FLUSH PRIVILEGES;
