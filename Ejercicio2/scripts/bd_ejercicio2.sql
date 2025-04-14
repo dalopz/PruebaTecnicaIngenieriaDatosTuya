@@ -1,36 +1,45 @@
-CREATE DATABASE db_preferencia_consumo;
+CREATE DATABASE bd_preferencia_consumo;
 
-USE db_preferencia_consumo;
+USE bd_preferencia_consumo;
 
 
 
+-- Crear tabla TIPO_DOCUMENTO
 CREATE TABLE TIPO_DOCUMENTO (
-    id INT PRIMARY KEY,
-    tipo_documento VARCHAR(50) NOT NULL 
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_documento VARCHAR(50) NOT NULL
 );
 
--- Despues de cargar los datos, que el id sea incremental
-ALTER TABLE TIPO_DOCUMENTO 
-MODIFY COLUMN id INT AUTO_INCREMENT PRIMARY KEY;
-
-
-
-CREATE TABLE TIPO_TARJETA (
-    id INT PRIMARY KEY,
-    tipo_tarjeta VARCHAR(20) NOT NULL
-);
-
--- Despues de cargar los datos, que el id sea incremental
-ALTER TABLE TIPO_TARJETA 
-MODIFY COLUMN id INT AUTO_INCREMENT PRIMARY KEY;
-
-
-
+-- Crear tabla CLASIFICACION
 CREATE TABLE CLASIFICACION (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     clasificacion VARCHAR(50) NOT NULL
 );
 
--- Despues de cargar los datos, que el id sea incremental
-ALTER TABLE CLASIFICACION 
-MODIFY COLUMN id INT AUTO_INCREMENT PRIMARY KEY;
+-- Crear tabla TIPO_TARJETA
+CREATE TABLE TIPO_TARJETA (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_tarjeta VARCHAR(50) NOT NULL
+);
+
+-- Crear tabla ESTADO_TARJETA
+CREATE TABLE ESTADO_TARJETA (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    estado_tarjeta VARCHAR(50) NOT NULL
+);
+
+-- Crear tabla CLIENTES
+CREATE TABLE CLIENTES (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    identificacion VARCHAR(50) NOT NULL,
+    tipo_documento_id INT,
+    clasificacion_id INT,
+    tipo_tarjeta_id INT,
+    fecha_apertura_tarjeta DATE,
+    estado_tarjeta_id INT,
+    FOREIGN KEY (tipo_documento_id) REFERENCES TIPO_DOCUMENTO(id),
+    FOREIGN KEY (clasificacion_id) REFERENCES CLASIFICACION(id),
+    FOREIGN KEY (tipo_tarjeta_id) REFERENCES TIPO_TARJETA(id),
+    FOREIGN KEY (estado_tarjeta_id) REFERENCES ESTADO_TARJETA(id)
+);
