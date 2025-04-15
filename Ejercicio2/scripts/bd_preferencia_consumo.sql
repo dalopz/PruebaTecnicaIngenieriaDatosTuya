@@ -28,6 +28,20 @@ CREATE TABLE ESTADO_TARJETA (
     estado_tarjeta VARCHAR(50) NOT NULL
 );
 
+
+CREATE TABLE Tiempo (
+    id INT PRIMARY KEY,
+    fecha DATE,
+    anio INT,
+    mes INT,
+    dia INT,
+    nombre_mes VARCHAR(20),
+    dia_semana VARCHAR(20),
+    anio_mes CHAR(7),  
+    semana_anio INT
+);
+
+
 -- Crear tabla CLIENTES
 CREATE TABLE CLIENTES (
     id INT AUTO_INCREMENT PRIMARY KEY,
