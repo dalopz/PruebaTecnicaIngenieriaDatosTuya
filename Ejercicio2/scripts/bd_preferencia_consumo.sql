@@ -50,10 +50,13 @@ CREATE TABLE CLIENTES (
     tipo_documento_id INT,
     clasificacion_id INT,
     tipo_tarjeta_id INT,
-    fecha_apertura_tarjeta DATE,
+    fecha_apertura_id INT, 
     estado_tarjeta_id INT,
     FOREIGN KEY (tipo_documento_id) REFERENCES TIPO_DOCUMENTO(id),
     FOREIGN KEY (clasificacion_id) REFERENCES CLASIFICACION(id),
     FOREIGN KEY (tipo_tarjeta_id) REFERENCES TIPO_TARJETA(id),
-    FOREIGN KEY (estado_tarjeta_id) REFERENCES ESTADO_TARJETA(id)
+    FOREIGN KEY (estado_tarjeta_id) REFERENCES ESTADO_TARJETA(id),
+    FOREIGN KEY (fecha_apertura_id) REFERENCES Tiempo(id)
 );
+
+
