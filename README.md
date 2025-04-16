@@ -60,7 +60,7 @@ Imágenes procesadas con éxito:
 Imágenes que fallaron:
 PS C:\David Lopez Cuervo\PruebaTecnicaIngenieriaDatosTuya\Ejercicio1> 
 
-### Para ejecutarlo 
+# Para ejecutarlo 
 Coloca tus archivos HTML dentro de la carpeta test_file/ o en su defecto dejar los archivos que ya se encuentran para la prueba
 Los archivos HTML deben tener imágenes que desees convertir a Base64 
 
