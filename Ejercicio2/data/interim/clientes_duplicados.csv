@@ -1,0 +1,15 @@
+NOMBRE,IDENTIFICACIÓN,TIPO_DOCUMENTO,CLASIFICACION,TIPO_TARJETA,FECHA_APERTURA_TARJETA,ESTADO_TARJETA
+Laura López,2A3B4C5D6E7F8G9H0,DNI,Empresarial,Débito,2018-07-14,Inactiva
+Santiago Vargas,2A3B4C5D6E7F8G9H0,Cédula,Personal,Crédito,2005-11-23,Activa
+Juan Pérez,2C3D4E5F6G7H8I9J0,DNI,Personal,Crédito,2023-01-15,Activa
+Paula Mendoza,2C3D4E5F6G7H8I9J0,Pasaporte,Empresarial,Débito,2010-05-21,Activa
+Ana Martínez,2G3H4I5J6K7L8M9N0,Cédula,Empresarial,Débito,2020-08-25,Activa
+Fernando Castro,2G3H4I5J6K7L8M9N0,Pasaporte,Personal,Crédito,2007-03-29,Açtiva
+Pedro González,2K3L4M5N6O7P8Q9R0,Cédula,Personal,Crédito,2017-03-22,Activa
+Natalia Herrera,2K3L4M5N6O7P8Q9R0,Pasaporte,Empresarial,Débito,2004-04-05,Activa
+María García,2M3N4O5P6Q7R8S9T0,Pasaporte,Empresarial,Débito,2022-11-20,Activa
+Fernando Castro,2M3N4O5P6Q7R8S9T0,DNI,Personal,Crédito,2009-08-03,Inactiva
+Luis Hernández,2Q3R4S5T6U7V8W9X0,Pasaporte,Personal,Crédito,2019-12-10,Activa
+Valentina Romero,2Q3R4S5T6U7V8W9X0,DNI,Empresarial,Débito,2006-07-11,Inactiva
+Carlos Rodríguez,2W3X4Y5Z6A7B8C9D0,DNI,Personal,Crédito,2021-05-30,Inactiva
+Gabriela Ortiz,2W3X4Y5Z6A7B8C9D0,Cédula,Empresarial,Débito,2008-12-15,Activa
