@@ -86,14 +86,14 @@ python main.py test_file/prueba.html    esto para un archivo en especifico
 
 ## Desarrollo del Ejercicio 3
 
-### 1. 🔍 Análisis exploratorio
+### 1. Análisis exploratorio
 
 Se realizó una revisión de las hojas `historia` y `retiros` del archivo `rachas.xlsx` para validar:
 - Formato correcto de fechas.
 - Ausencia de valores atípicos o inconsistencias en los saldos.
 - Completitud de los identificadores de clientes.
 
-### 2. 🧱 Normalización con Dimensión Tiempo
+### 2. Normalización con Dimensión Tiempo
 
 Para estructurar una base de datos más **normalizada** y facilitar las uniones, se creó una tabla de dimensión `TIEMPO`, que contiene todas las fechas únicas de los cortes de mes. Esto permite:
 - Eliminar duplicidad de valores de fecha en las tablas principales.
