@@ -48,7 +48,7 @@ El proceso de conversión se realiza de la siguiente manera:
 ### Resultado Final
 
 Al finalizar el procesamiento, el sistema retorna un resumen con los resultados de las imagenes procesadas. Se imprime una lista con las imagenes que se han convertido correctamente y una lista con las que no pudieron ser procesadas.
-
+```bash
 PS C:\David Lopez Cuervo\PruebaTecnicaIngenieriaDatosTuya\Ejercicio1> python main.py --input "test_file/" --output "outputs"
 Archivo generado: outputs\prueba_base64.html
 Archivo generado: outputs\prueba2_base64.html
@@ -60,7 +60,7 @@ Imágenes procesadas con éxito:
 Imágenes que fallaron:
 
 PS C:\David Lopez Cuervo\PruebaTecnicaIngenieriaDatosTuya\Ejercicio1> 
-
+```
 ### Para ejecutarlo 
 Coloca tus archivos HTML dentro de la carpeta test_file/ o en su defecto dejar los archivos que ya se encuentran para la prueba
 Los archivos HTML deben tener imágenes que desees convertir a Base64 
@@ -80,7 +80,7 @@ python main.py test_file/prueba.html    esto para un archivo en especifico
 ## Desarrollo del Ejercicio 2
 
 
-## 🔍 Análisis y Limpieza de Datos
+## Análisis y Limpieza de Datos
 
 ### CLIENTES
 
@@ -174,6 +174,34 @@ El script para crear la vista `vista_preferencias_base` está contenido en el ar
 
 ```bash
 scripts/ddl/view_preferencia_base.sql
+```
+### Resultado de la ejecucion
+```bash
+mysql> SELECT * FROM vista_preferencias_base WHERE nivel_preferencia = 1;
++-------------------+------------------+------------------+---------------------+--------------------+-------------------+
+| identificacion    | nombre_cliente   | nombre_categoria | total_transacciones | ultima_transaccion | nivel_preferencia |
++-------------------+------------------+------------------+---------------------+--------------------+-------------------+
+| 2A3B4C5D6E7F8G9H0 | Laura L�pez      | Hogar            |                   1 | 2021-06-15         |                 1 |
+| 2A3B4C5D6E7F8G9H0 | Laura L�pez      | Ropa             |                   1 | 2021-11-15         |                 1 |
+| 2C3D4E5F6G7H8I9J0 | Juan P�rez       | Mascotas         |                   1 | 2023-02-10         |                 1 |
+| 2G3H4I5J6K7L8M9N0 | Ana Mart�nez     | Belleza          |                   1 | 2020-11-05         |                 1 |
+| 2I3J4K5L6M7N8O9P0 | Elena Ruiz       | Electr�nica      |                   1 | 2020-12-05         |                 1 |
+| 2I3J4K5L6M7N8O9P0 | Elena Ruiz       | Ropa             |                   1 | 2020-09-10         |                 1 |
+| 2K3L4M5N6O7P8Q9R0 | Pedro Gonz�lez   | Salud            |                   1 | 2021-09-15         |                 1 |
+| 2K3L4M5N6O7P8Q9R0 | Pedro Gonz�lez   | Juguetes         |                   1 | 2021-07-05         |                 1 |
+| 2K3L4M5N6O7P8Q9R0 | Pedro Gonz�lez   | Belleza          |                   1 | 2023-03-05         |                 1 |
+| 2K3L4M5N6O7P8Q9R0 | Pedro Gonz�lez   | Ferreter�a       |                   1 | 2017-08-05         |                 1 |
+| 2K3L4M5N6O7P8Q9R0 | Pedro Gonz�lez   | Mascotas         |                   1 | 2021-08-25         |                 1 |
+| 2O3P4Q5R6S7T8U9V0 | Marta Torres     | Salud            |                   1 | 2020-12-05         |                 1 |
+| 2O3P4Q5R6S7T8U9V0 | Marta Torres     | Muebles          |                   1 | 2023-06-01         |                 1 |
+| 2Q3R4S5T6U7V8W9X0 | Luis Hern�ndez   | Jardiner�a       |                   1 | 2021-10-15         |                 1 |
+| 2S3T4U5V6W7X8Y9Z0 | Andr�s Jim�nez   | Libros           |                   1 | 2014-08-25         |                 1 | 
+| 2S3T4U5V6W7X8Y9Z0 | Andr�s Jim�nez   | Automotriz       |                   1 | 2017-09-05         |                 1 | 
+| 2W3X4Y5Z6A7B8C9D0 | Carlos Rodr�guez | Viajes           |                   1 | 2023-01-20         |                 1 | 
+| 2Y3Z4A5B6C7D8E9F0 | Jorge Flores     | Joyer�a          |                   1 | 2018-12-10         |                 1 | 
+| 2Y3Z4A5B6C7D8E9F0 | Jorge Flores     | Viajes           |                   1 | 2023-05-01         |                 1 | 
++-------------------+------------------+------------------+---------------------+--------------------+-------------------+ 
+21 rows in set (0.03 sec)
 ```
 
 ## Desarrollo del Ejercicio 3
