@@ -80,9 +80,101 @@ python main.py test_file/prueba.html    esto para un archivo en especifico
 ## Desarrollo del Ejercicio 2
 
 
+## 🔍 Análisis y Limpieza de Datos
 
+### CLIENTES
 
+- Se detectaron **14 registros duplicados** en la columna `IDENTIFICACIÓN`, con clientes distintos compartiendo el mismo valor.
+- Esto generaba problemas de integridad referencial, ya que no era posible determinar con certeza qué cliente había realizado cada transacción.
 
+#### Opciones Consideradas
+
+1. **Crear un nuevo ID concatenado** (ej. `IDENTIFICACIÓN` + `nombre` o `tipp  docuemnto` )  
+   → Rechazado, ya que la hoja `TRANSACCIONES` no tenía suficiente información para replicar esta clave.
+
+2. **Conservar registros activos y eliminar duplicados inactivos**  
+   → Rechazado, ya que algunos clientes inactivos tenían transacciones válidas previas a la apertura de otro cliente duplicado.
+
+3. **Filtrar por clientes con transacciones válidas (fecha transacción > apertura tarjeta)**  
+   → Muy pocos cumplían con esta regla y no se garantizaba integridad al unir con `TRANSACCIONES`.
+
+#### Solución Aplicada
+
+Para continuar con el ejercicio, se eliminaron los duplicados conservando los registros **más recientes**, simulando una regla de negocio donde "el registro válido es el último".  
+Esto generó el archivo `clientes_supuestos.csv` en `data/processed/`.
+
+**Nota:** Esta solución fue tomada exclusivamente para fines de esta prueba.  
+La **buena práctica** sería implementar un gobierno de datos y corregir estas inconsistencias en origen con las personas o area encargada.
+
+---
+
+##  Limpieza y Preparación de las Otras Tablas
+
+### TRANSACCIONES
+
+- Validación de fechas de transacción.
+- Normalización de estados de tarjeta y tipos de tarjeta.
+- Transformación de nombres de columnas.
+
+### CATEGORIAS_CONSUMO
+
+- Estandarización y separación por dimensiones: ciudad, departamento, categoría general.
+
+### Dimensiones creadas
+
+- `CLASIFICACIÓN`
+- `TIPO_TARJETA`
+- `ESTADO_TARJETA`
+- `TIPO_DOCUMENTO`
+- `CATEGORÍA_GENERAL`
+- `CIUDAD`
+- `DEPARTAMENTO`
+
+- `TIEMPO`  
+  Se creó para relacionar las fechas de transacción a través de índices, permitiendo mejores consultas y rendimiento en análisis temporal.
+
+---
+
+##  Creación de Base de Datos
+
+- La base de datos `preferencia_consumo` se creó en MySQL.
+- Las tablas fueron creadas y llenadas usando archivos `.csv` desde `data/processed/`, importados con **DBeaver**.
+- El script para crear la estructura está en:
+
+```bash
+scripts/ddl/bd_preferencia_consumo.sql
+```
+## Vista de Preferencias de Consumo
+
+Se construyó una vista llamada `vista_preferencias_base`, que tiene como objetivo proporcionar una base dinámica para el análisis de preferencias de consumo de los clientes. Esta vista permite identificar patrones y preferencias en las categorías de consumo a lo largo del tiempo.
+
+### Descripción de la Vista
+
+La vista `vista_preferencias_base` realiza las siguientes acciones:
+
+1. **Unión entre tablas**:
+   - `CLIENTES` y `TRANSACCIONES`: Para vincular los datos de los clientes con sus transacciones.
+   - `TRANSACCIONES` y `CATEGORIAS_CONSUMO`: Para conectar las transacciones con las categorías generales de consumo asociadas.
+
+2. **Cálculo de la cantidad total de transacciones por cliente y categoría**:
+   - Para cada cliente, se calcula cuántas veces ha realizado una transacción en cada categoría general.
+
+3. **Facilidad de filtrado dinámico**:
+   - Se puede filtrar por niveles de preferencia de los clientes y por ventanas temporales.
+
+### Beneficios de la Vista
+
+- **Análisis por niveles de preferencia**: Permite conocer las categorías preferidas de los clientes según su volumen de transacciones.
+- **Consultas dinámicas**: Se puede ajustar la vista para obtener diferentes resultados según los filtros aplicados (e.g., por fecha, categoría, etc.).
+- **Facilidad para realizar un seguimiento de cambios**: Permite analizar cómo los hábitos de consumo de los clientes cambian con el tiempo.
+
+### Script de la Vista
+
+El script para crear la vista `vista_preferencias_base` está contenido en el archivo:
+
+```bash
+scripts/ddl/view_preferencia_base.sql
+```
 
 ## Desarrollo del Ejercicio 3
 
