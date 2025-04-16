@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
-from html_img_base64.parser import HTMLImageParser
-from html_img_base64.converter import ImageBase64Converter
+from html_image_base64.parser import HTMLImageParser
+from html_image_base64.converter import ImageBase64Converter
 
 class HTMLProcessor:
     def __init__(self):
