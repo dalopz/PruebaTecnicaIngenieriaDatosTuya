@@ -1,8 +1,0 @@
-Para un solo archivo
-
-python main.py test_file/prueba.html
-
-
-para un directorio
-
-python main.py test_file

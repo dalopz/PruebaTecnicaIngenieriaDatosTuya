@@ -4,7 +4,7 @@ CREATE PROCEDURE obtener_rachas (
     IN fecha_base DATE,
     IN n_min_racha INT
 )
-BEGIN
+BEGIN   
     -- Clientes únicos
     DROP TEMPORARY TABLE IF EXISTS tmp_clientes;
     CREATE TEMPORARY TABLE tmp_clientes AS

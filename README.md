@@ -1,4 +1,4 @@
-# PruebaTecnicaIngenieriaDatosTuya
+# PruebaTecnicaIngenieriaDatosTuya -  David López Cuervo
 
 
 ## Desarrollo del Ejercicio 1
@@ -82,4 +82,135 @@ python main.py test_file/prueba.html    esto para un archivo en especifico
 
 
 
+
+
 ## Desarrollo del Ejercicio 3
+
+## Preparación de los datos
+
+### 1. 🔍 Análisis exploratorio
+
+Se realizó una revisión de las hojas `historia` y `retiros` del archivo `rachas.xlsx` para validar:
+- Formato correcto de fechas.
+- Ausencia de valores atípicos o inconsistencias en los saldos.
+- Completitud de los identificadores de clientes.
+
+### 2. 🧱 Normalización con Dimensión Tiempo
+
+Para estructurar una base de datos más **normalizada** y facilitar las uniones, se creó una tabla de dimensión `TIEMPO`, que contiene todas las fechas únicas de los cortes de mes. Esto permite:
+- Eliminar duplicidad de valores de fecha en las tablas principales.
+- Mejorar la eficiencia de las consultas y joins.
+- Simplificar comparaciones y filtros entre fechas (usando `id_fecha` en lugar de valores DATE).
+
+Las columnas `corte_mes` (en `historia`) y `fecha_retiro` (en `retiros`) se reemplazaron por el correspondiente `id` de la tabla `TIEMPO`. Los datos resultantes fueron exportados como CSV a `data/processed`.
+
+La data original se conservó en `data/raw` para garantizar trazabilidad y control de versiones.
+
+### 3. Carga de la base de datos
+
+Se implementó un entorno de base de datos usando Docker y la imagen oficial de MySQL. El script de creación de esquema y tablas se encuentra en:
+
+```
+scripts/ddl/bd_rachas.sql
+```
+
+La carga de datos se realizó desde los archivos CSV procesados utilizando DBeaver.
+
+
+## Procedimiento almacenado `obtener_rachas`
+
+Este procedimiento resuelve el problema con base en una fecha de corte (`fecha_base`) y una duración mínima (`n_min_racha`) y sigue los siguientes pasos:
+
+### 1. Generación de combinaciones cliente-fecha
+Se obtiene el producto cartesiano de todos los clientes activos con todas las fechas menores o iguales a `fecha_base`, permitiendo reconstruir una serie mensual completa incluso si hay meses faltantes.
+
+### 2. Clasificación de saldos por nivel
+Se clasifica cada saldo según los siguientes rangos:
+- `N0`: 0 ≤ saldo < 300,000
+- `N1`: 300,000 ≤ saldo < 1,000,000
+- `N2`: 1,000,000 ≤ saldo < 3,000,000
+- `N3`: 3,000,000 ≤ saldo < 5,000,000
+- `N4`: saldo ≥ 5,000,000
+
+Cuando no hay dato de saldo para una fecha específica despues de la primera aparición del cliente y que este no este retirado, se asume nivel `N0`, **excepto si la fecha es posterior a la fecha de retiro del cliente**, en cuyo caso no se incluye.
+
+### 3. Detección de rachas
+
+Se calcula un número de grupo utilizando diferencias de `ROW_NUMBER` para identificar **subseries consecutivas** con el mismo nivel. Luego se agrupan esas series para contar la longitud de cada racha.
+
+### 4. Filtro y priorización
+
+Se filtran solo aquellas rachas cuya duración es mayor o igual a `n_min_racha`. Si un cliente tiene varias, se selecciona:
+- La racha más larga.
+- En caso de empate, la más reciente (menor o igual a `fecha_base`).
+
+### 5. Resultado final
+
+El procedimiento retorna una tabla con las siguientes columnas:
+- `identificacion`
+- `nivel` (N0-N4)
+- `racha` (cantidad de meses consecutivos)
+- `fecha_fin` (fecha de corte de fin de la racha)
+
+
+## Ejecución
+
+## 1. Crear la base de datos y las tablas en mysql
+
+1. Abre el archivo `scripts/ddl/bd_rachas.sql`.
+2. Ejecuta el script en tu cliente MySQL para crear el esquema y las tablas necesarias:
+   - `TIEMPO`
+   - `HISTORIA`
+   - `RETIRO`
+
+---
+
+## 2. Cargar los datos procesados
+
+Usando una herramienta como **DBeaver** o **MySQL Workbench**:
+
+1. Haz clic derecho sobre cada tabla → **"Import Data"**.
+2. Importa los archivos `.csv` desde la carpeta `data/processed/`:
+   - `TIEMPO.csv` → tabla `TIEMPO`
+   - `HISTORIA.csv` → tabla `HISTORIA`
+   - `RETIRO.csv` → tabla `RETIRO`
+3. Asegúrate de mapear correctamente las columnas según el orden de cada tabla.
+4. Ejecuta la importación y verifica que los datos hayan quedado correctamente cargados.
+
+---
+
+## 3. Crear el procedimiento almacenado
+
+1. Abre el archivo `stored_procedures/obtener_rachas.sql`.
+2. Ejecuta el contenido del script en tu base de datos para crear el procedimiento `obtener_rachas`.
+
+---
+
+## 4. Ejecutar el procedimiento
+
+Llama al procedimiento para obtener los resultados. Por ejemplo:
+
+```sql
+CALL obtener_rachas('2023-03-31', 3);
+
+
+## Resultado de la ejecución
+
+Database changed
+mysql> CALL obtener_rachas('2023-03-31', 3);
++-------------------+-------+-------+------------+
+| identificacion    | nivel | racha | fecha_fin  |
++-------------------+-------+-------+------------+
+| 5CS7MKN5CCCZTYEH8 | N3    |     3 | 2023-03-31 |
+| DJXLPRMY5ZZMANLU6 | N4    |     3 | 2023-03-31 |
+| K2DBNBQ09G1QCCD7W | N3    |     3 | 2023-03-31 |
+| KUD4O3VLEGN7O0D3B | N2    |     3 | 2023-03-31 |
+| LATSV8PKLN0G0XSCQ | N3    |     3 | 2023-03-31 |
+| MUIZHHC8NUPU3856X | N3    |     3 | 2023-03-31 |
+| R7Q4Z9AULIORDJQ9D | N2    |     3 | 2023-03-31 |
+| V4LNPTIOKCV53PIHE | N3    |     3 | 2023-03-31 |
++-------------------+-------+-------+------------+
+8 rows in set (0.06 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
