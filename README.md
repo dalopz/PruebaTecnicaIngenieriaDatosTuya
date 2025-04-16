@@ -58,16 +58,20 @@ Imágenes procesadas con éxito:
  - C:\David Lopez Cuervo\PruebaTecnicaIngenieriaDatosTuya\Ejercicio1\test_file\imagen2.png
 
 Imágenes que fallaron:
+
 PS C:\David Lopez Cuervo\PruebaTecnicaIngenieriaDatosTuya\Ejercicio1> 
 
-# Para ejecutarlo 
+### Para ejecutarlo 
 Coloca tus archivos HTML dentro de la carpeta test_file/ o en su defecto dejar los archivos que ya se encuentran para la prueba
 Los archivos HTML deben tener imágenes que desees convertir a Base64 
 
 Navega al directorio donde está el archivo main.py.
 
 Ejecuta el script principal con los siguientes parámetros:
-python main.py --input "test_file/" --output "outputs" -- esto para recorrer todos los archivos
+
+python main.py --input "test_file/" --output "outputs"     esto para recorrer el directorio
+
+python main.py test_file/prueba.html    esto para un archivo en especifico
 
 
 
