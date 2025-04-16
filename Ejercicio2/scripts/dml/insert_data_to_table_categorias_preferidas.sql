@@ -1,10 +1,9 @@
--- Insertar datos en categorias_preferidas
 INSERT INTO categorias_preferidas (identificacion, nombre_cliente, categoria_preferida, ultima_transaccion)
 SELECT 
-    t.IDENTIFICACION,  -- Identificación del cliente
-    c.nombre,  -- Nombre del cliente
-    ccc.NOMBRE_CATEGORIA,  -- Nombre de la categoría preferida
-    MAX(tx.fecha)  -- Fecha de la última transacción en esa categoría
+    t.IDENTIFICACION,  
+    c.nombre,  
+    ccc.NOMBRE_CATEGORIA,  
+    MAX(tx.fecha)
 FROM 
     TRANSACCION t
 JOIN 
@@ -13,8 +12,11 @@ JOIN
     CATEGORIAS_CONSUMO ccc ON t.CODIGO_CATEGORIA = ccc.CODIGO_CATEGORIA  
 JOIN 
     Tiempo tx ON t.id_fecha = tx.id 
+JOIN 
+    Tiempo tap ON c.fecha_apertura_id = tap.id  -- Fecha de apertura de la tarjeta
 WHERE 
-    t.ESTADO = 'Aprobada'  
+    t.ESTADO = 'Aprobada'
+    AND tx.fecha >= tap.fecha  -- Validación de que la transacción ocurrió luego de la apertura
 GROUP BY 
     t.IDENTIFICACION, ccc.NOMBRE_CATEGORIA
 ORDER BY 
