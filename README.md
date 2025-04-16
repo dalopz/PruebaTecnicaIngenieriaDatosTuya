@@ -165,7 +165,7 @@ El procedimiento retorna una tabla con las siguientes columnas:
 
 ## 2. Cargar los datos procesados
 
-Usando una herramienta como **DBeaver** o **MySQL Workbench**:
+Usando una herramienta como **DBeaver** que fue la usada:
 
 1. Haz clic derecho sobre cada tabla → **"Import Data"**.
 2. Importa los archivos `.csv` desde la carpeta `data/processed/`:
