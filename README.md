@@ -86,8 +86,6 @@ python main.py test_file/prueba.html    esto para un archivo en especifico
 
 ## Desarrollo del Ejercicio 3
 
-## Preparación de los datos
-
 ### 1. 🔍 Análisis exploratorio
 
 Se realizó una revisión de las hojas `historia` y `retiros` del archivo `rachas.xlsx` para validar:
