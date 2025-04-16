@@ -6,7 +6,6 @@ class HTMLImageParser(HTMLParser):
         self.img_sources = []
 
     def handle_starttag(self, tag, attrs):
-        # Detectamos los <img>
         if tag.lower() == "img":
             attrs_dict = dict(attrs)
             src = attrs_dict.get("src")

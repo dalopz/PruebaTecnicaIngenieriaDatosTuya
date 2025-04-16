@@ -12,7 +12,6 @@ class HTMLProcessor:
         """
         self.results = {"success": [], "fail": []}
         self.output_dir = Path(output_dir)
-        self.output_dir.mkdir(exist_ok=True)  # Crear la carpeta si no existe
 
     def process(self, paths):
         """
