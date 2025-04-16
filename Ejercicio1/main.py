@@ -1,36 +1,28 @@
 import sys
 from pathlib import Path
-
-# Agrega el directorio raíz del proyecto al sys.path
-project_root = Path(__file__).resolve().parent
-sys.path.insert(0, str(project_root))
-
-# Ahora importa el módulo
 from html_image_base64.processor import HTMLProcessor
 
-
 def main():
-    # Definir las rutas de los archivos o directorios que deseas procesar
-    paths = [
-        "test_files/prueba.html",  # Puede ser un archivo individual
-        "test_files",                # O un directorio con varios HTMLs
-    ]
 
-    # Instanciar el procesador
-    processor = HTMLProcessor()
+    if len(sys.argv) < 2:
+        print("Por favor, pasa al menos un directorio o archivo HTML para procesar.")
+        sys.exit(1)
 
-    # Procesar los archivos o directorios
-    resultados = processor.process(paths)
+    paths = sys.argv[1:]
 
-    # Mostrar los resultados
-    print("Imágenes procesadas con éxito:")
-    for item in resultados["success"]:
-        print(item)
+    # Se instancia el procesador con la carpeta de salida por defecto ('outputs')
+    processor = HTMLProcessor(output_dir="outputs")
+
+    # Procesar los archivos HTML
+    results = processor.process(paths)
+
+    print("\nImágenes procesadas con éxito:")
+    for success in results["success"]:
+        print(f" - {success}")
 
     print("\nImágenes que fallaron:")
-    for item in resultados["fail"]:
-        print(item)
-
+    for fail in results["fail"]:
+        print(f" - {fail}")
 
 if __name__ == "__main__":
     main()
