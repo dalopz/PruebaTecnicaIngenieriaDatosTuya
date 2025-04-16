@@ -17,12 +17,20 @@ BEGIN
     FROM TIEMPO
     WHERE fecha <= fecha_base;
 
-    -- Producto cartesiano cliente x fecha
+    -- Primer mes real en que cada cliente aparece
+    DROP TEMPORARY TABLE IF EXISTS tmp_primer_mes_real;
+    CREATE TEMPORARY TABLE tmp_primer_mes_real AS
+    SELECT identificacion, MIN(id_fecha) AS primer_id_fecha
+    FROM HISTORIA
+    GROUP BY identificacion;
+
+    -- Producto cartesiano cliente x fecha - solo desde su primera aparicion
     DROP TEMPORARY TABLE IF EXISTS tmp_cliente_fechas;
     CREATE TEMPORARY TABLE tmp_cliente_fechas AS
     SELECT c.identificacion, f.id_fecha, f.fecha
     FROM tmp_clientes c
-    CROSS JOIN tmp_fechas_validas f;
+    JOIN tmp_primer_mes_real p ON c.identificacion = p.identificacion
+    JOIN tmp_fechas_validas f ON f.id_fecha >= p.primer_id_fecha;
 
     -- Clasificación de saldos por nivel
     DROP TEMPORARY TABLE IF EXISTS tmp_saldos_nivel;
@@ -44,7 +52,7 @@ BEGIN
     CREATE TEMPORARY TABLE tmp_retiros AS
     SELECT identificacion, id_fecha AS id_retiro FROM RETIRO;
 
-    -- Tabla final con niveles
+    -- Tabla final con niveles (N0 si no hay dato, excluyendo posteriores al retiro)
     DROP TEMPORARY TABLE IF EXISTS tmp_cliente_niveles;
     CREATE TEMPORARY TABLE tmp_cliente_niveles AS
     SELECT 
